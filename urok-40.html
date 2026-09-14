@@ -63,11 +63,9 @@
 
   /* ===== Layout ===== */
   .app{
-    max-width:1180px;
+    max-width:900px;
     margin:0 auto;
-    display:grid;
-    grid-template-columns:220px 1fr;
-    gap:0;
+    display:block;
     padding:28px clamp(10px,3vw,28px) 60px;
   }
   nav.tabs{
@@ -293,6 +291,8 @@
   .tab-btn{text-decoration:none;display:flex;}
 
   a.next-btn{text-decoration:none;display:inline-block;}
+  .home-link{margin-left:auto;text-decoration:none;color:#C9D3E8;font-family:'Rubik',sans-serif;font-weight:600;font-size:13.5px;background:rgba(255,255,255,.08);padding:8px 14px;border-radius:20px;white-space:nowrap;}
+  .home-link:hover{background:rgba(255,255,255,.16);color:#fff;}
 
 </style>
 </head>
@@ -304,24 +304,10 @@
     <h1>Зошит з української мови</h1>
     <p class="sub">Платформа для 5 класу · Синтаксис: речення та його члени</p>
   </div>
+  <a class="home-link" href="platform.html">🏠 Платформа</a>
 </div>
 
 <div class="app">
-  <nav class="tabs">
-    <a class="tab-btn" href="platform.html">🏠 Платформа</a>
-    <a class="tab-btn" href="urok-39.html" style="color:var(--l1)">
-      Урок 1
-      <small>§39. Речення й основа</small>
-    </a>
-    <a class="tab-btn active" href="urok-40.html" style="color:var(--l2)">
-      Урок 2
-      <small>§40. Види речень</small>
-    </a>
-    <a class="tab-btn" href="urok-41.html" style="color:var(--l3)">
-      Урок 3
-      <small>§41. Додаток</small>
-    </a>
-  </nav>
 
   <main class="page" id="pageMain">
 <section class="view active" id="view-l2">
