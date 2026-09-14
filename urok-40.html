@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Урок 2 · §40. Види речень за метою висловлювання</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:#FFFEF8;
+    --paper-edge:#F4EFDF;
+    --line:#C9DCEE;
+    --margin:#D6402B;
+    --ink:#1F2E4D;
+    --ink-soft:#4A5A7A;
+    --good:#3F9142;
+    --bad:#D6402B;
+    --gold:#FFD75E;
+    --l1:#2F7BC4;
+    --l1-soft:#E7F1FB;
+    --l2:#E0793B;
+    --l2-soft:#FCEEE2;
+    --l3:#3F9142;
+    --l3-soft:#E9F5E9;
+    --accent:var(--l1);
+    --accent-soft:var(--l1-soft);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#E9E4D4;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+  h1,h2,h3,h4{font-family:'Rubik',sans-serif;margin:0 0 .4em 0;color:var(--ink);}
+  p{line-height:1.55;margin:.4em 0;}
+  .note{font-family:'Caveat',cursive;}
+
+  /* ===== Top cover bar ===== */
+  .topbar{
+    background:var(--ink);
+    color:#fff;
+    padding:22px clamp(16px,4vw,48px);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .topbar .badge{
+    width:46px;height:46px;border-radius:10px;
+    background:linear-gradient(135deg,var(--l1),var(--l2) 50%,var(--l3));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Rubik',sans-serif;font-weight:800;font-size:18px;flex:none;
+  }
+  .topbar h1{color:#fff;font-size:clamp(18px,2.6vw,24px);margin:0;}
+  .topbar .sub{color:#C9D3E8;font-size:14px;margin:0;font-family:'Nunito';}
+  .topbar .titlewrap{display:flex;flex-direction:column;gap:2px;}
+
+  /* ===== Layout ===== */
+  .app{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:0;
+    padding:28px clamp(10px,3vw,28px) 60px;
+  }
+  nav.tabs{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding-top:8px;
+    position:sticky;
+    top:16px;
+    align-self:start;
+  }
+  .tab-btn{
+    text-align:left;
+    border:none;
+    cursor:pointer;
+    font-family:'Rubik',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--paper-edge);
+    padding:14px 16px;
+    border-radius:0 10px 10px 0;
+    border-left:6px solid transparent;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .tab-btn small{font-family:'Nunito';font-weight:600;color:var(--ink-soft);font-size:11.5px;}
+  .tab-btn:hover{transform:translateX(3px);}
+  .tab-btn.active{background:var(--paper);box-shadow:0 3px 10px rgba(0,0,0,.08);}
+  .tab-btn[data-tab="home"].active{border-left-color:var(--ink);}
+  .tab-btn[data-tab="l1"].active{border-left-color:var(--l1);}
+  .tab-btn[data-tab="l2"].active{border-left-color:var(--l2);}
+  .tab-btn[data-tab="l3"].active{border-left-color:var(--l3);}
+
+  .progress-mini{
+    margin-top:2px;
+    height:5px;width:100%;
+    background:rgba(0,0,0,.08);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .progress-mini i{display:block;height:100%;width:0%;background:currentColor;border-radius:3px;transition:width .4s ease;}
+
+  /* ===== Page (notebook paper) ===== */
+  main.page{
+    background:var(--paper);
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(31,46,77,.12);
+    position:relative;
+    overflow:hidden;
+    min-height:70vh;
+  }
+  main.page::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:repeating-linear-gradient(var(--paper) 0 37px, var(--line) 37px 38px);
+    opacity:.55;
+    pointer-events:none;
+  }
+  main.page::after{
+    content:"";
+    position:absolute;top:0;bottom:0;left:56px;width:2px;
+    background:var(--margin);
+    opacity:.35;
+    pointer-events:none;
+  }
+  @media (max-width:720px){
+    main.page::after{display:none;}
+    main.page::before{background-image:repeating-linear-gradient(var(--paper) 0 30px, var(--line) 30px 31px);}
+  }
+  .view{display:none;position:relative;padding:34px clamp(18px,5vw,64px) 50px 76px;}
+  .view.active{display:block;animation:pageIn .35s ease;}
+  @media (max-width:720px){.view{padding:26px 18px 40px;}}
+  @keyframes pageIn{from{opacity:0;transform:translateY(6px) rotateX(2deg);}to{opacity:1;transform:none;}}
+
+  /* ===== Home ===== */
+  .hero{margin-bottom:26px;}
+  .hero h2{font-size:clamp(22px,3.4vw,30px);}
+  .hero p{color:var(--ink-soft);max-width:60ch;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:22px;}
+  .card{
+    border-radius:var(--radius);
+    padding:20px;
+    color:#fff;
+    position:relative;
+    min-height:190px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    cursor:pointer;
+    border:none;
+    text-align:left;
+    font-family:'Nunito';
+  }
+  .card:nth-child(1){background:linear-gradient(160deg,var(--l1),#1E5D9C);}
+  .card:nth-child(2){background:linear-gradient(160deg,var(--l2),#B85A22);}
+  .card:nth-child(3){background:linear-gradient(160deg,var(--l3),#256E28);}
+  .card .num{font-family:'Rubik';font-weight:800;font-size:13px;opacity:.85;letter-spacing:.02em;}
+  .card h3{color:#fff;font-size:19px;margin:8px 0 6px;}
+  .card p{color:rgba(255,255,255,.9);font-size:13.5px;margin:0;}
+  .card .go{align-self:flex-start;margin-top:14px;background:rgba(255,255,255,.18);padding:7px 14px;border-radius:20px;font-weight:700;font-size:13px;}
+  .card svg{position:absolute;right:12px;top:12px;width:46px;height:46px;opacity:.9;}
+
+  /* ===== Lesson header ===== */
+  .lesson-head{display:flex;gap:16px;align-items:center;margin-bottom:6px;flex-wrap:wrap;}
+  .lesson-head .icon{width:56px;height:56px;flex:none;}
+  .lesson-tag{display:inline-block;font-family:'Rubik';font-weight:700;font-size:12px;color:#fff;background:var(--accent);padding:4px 10px;border-radius:20px;margin-bottom:6px;}
+  .lesson-head h2{font-size:clamp(20px,3vw,27px);}
+  .lesson-head .sub2{color:var(--ink-soft);font-size:14.5px;margin:2px 0 0;}
+  .lesson-progress-wrap{margin:16px 0 30px;background:var(--accent-soft);border-radius:20px;padding:6px 14px;display:flex;align-items:center;gap:10px;max-width:340px;}
+  .lesson-progress-wrap .bar{flex:1;height:8px;background:#fff;border-radius:6px;overflow:hidden;}
+  .lesson-progress-wrap .bar i{display:block;height:100%;width:0%;background:var(--accent);border-radius:6px;transition:width .5s ease;}
+  .lesson-progress-wrap span{font-family:'Rubik';font-size:12.5px;font-weight:700;color:var(--accent);white-space:nowrap;}
+
+  /* ===== theory blocks ===== */
+  .theory{
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    border-radius:0 10px 10px 0;
+    padding:16px 18px;
+    margin:18px 0;
+  }
+  .theory h4{color:var(--accent);font-size:15px;text-transform:none;}
+  .theory b{color:var(--ink);}
+  .example{
+    background:#fff;
+    border:1.5px dashed #D8D2BE;
+    border-radius:10px;
+    padding:12px 16px;
+    margin:12px 0;
+    font-size:14.5px;
+  }
+  .example .lbl{font-family:'Rubik';font-weight:700;font-size:11.5px;color:var(--ink-soft);display:block;margin-bottom:4px;}
+  .example i{color:var(--accent);font-style:normal;font-weight:700;border-bottom:2px solid var(--accent);}
+  .diagram{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+  .diagram .box{background:#fff;border:2px solid var(--accent);border-radius:10px;padding:8px 14px;font-family:'Rubik';font-weight:700;font-size:13.5px;color:var(--accent);}
+  .diagram .arrow{align-self:center;color:var(--ink-soft);font-size:18px;}
+
+  /* ===== exercises ===== */
+  .exercise{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:18px 20px;
+    margin:22px 0;
+    box-shadow:0 2px 10px rgba(31,46,77,.07);
+    border:1px solid #EFEADA;
+  }
+  .exercise .xnum{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--accent);color:#fff;font-family:'Rubik';font-weight:700;font-size:12.5px;
+    margin-right:8px;
+  }
+  .exercise .xhead{display:flex;align-items:center;margin-bottom:10px;}
+  .exercise .xhead strong{font-family:'Rubik';font-size:14.5px;}
+  .exercise .prompt{font-size:15px;margin-bottom:12px;}
+  .exercise .prompt em{color:var(--accent);font-style:normal;}
+
+  .opt-list{display:flex;flex-direction:column;gap:8px;}
+  .opt-btn{
+    text-align:left;
+    padding:11px 14px;
+    border-radius:10px;
+    border:2px solid #E7E2D2;
+    background:#FCFBF6;
+    cursor:pointer;
+    font-family:'Nunito';font-weight:700;font-size:14.5px;color:var(--ink);
+    transition:border-color .15s, background .15s;
+  }
+  .opt-btn:hover{border-color:var(--accent);}
+  .opt-btn.correct{border-color:var(--good);background:#EAF6EA;color:#245B26;}
+  .opt-btn.wrong{border-color:var(--bad);background:#FBEAE7;color:#8A2A1E;}
+  .opt-btn[disabled]{cursor:default;}
+
+  .word-chip-row{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 14px;font-size:16px;}
+  .chip{
+    padding:6px 10px;border-radius:8px;background:#FCFBF6;border:2px solid #E7E2D2;
+    cursor:pointer;font-weight:700;color:var(--ink);user-select:none;font-family:'Nunito';
+  }
+  .chip.picked{border-color:var(--accent);background:var(--accent-soft);}
+  .chip.correct{border-color:var(--good);background:#EAF6EA;color:#245B26;}
+  .chip.missed{border-color:var(--bad);background:#FBEAE7;color:#8A2A1E;}
+
+  .go-btn{
+    font-family:'Rubik';font-weight:700;font-size:13.5px;color:#fff;
+    background:var(--accent);border:none;padding:10px 18px;border-radius:24px;cursor:pointer;
+  }
+  .go-btn:hover{filter:brightness(1.08);}
+  .go-btn[disabled]{opacity:.5;cursor:default;}
+
+  .feedback{
+    margin-top:12px;font-family:'Caveat';font-weight:700;font-size:19px;line-height:1.35;
+    padding:8px 4px 2px;border-top:1.5px dashed #E7E2D2;
+  }
+  .feedback.good{color:var(--good);}
+  .feedback.bad{color:var(--bad);}
+
+  /* quiz */
+  .quiz-box{background:var(--ink);color:#fff;border-radius:16px;padding:26px clamp(16px,4vw,32px);margin:36px 0 10px;}
+  .quiz-box h3{color:#fff;font-size:20px;}
+  .quiz-box p.lead{color:#C9D3E8;margin-top:2px;}
+  .quiz-q{background:rgba(255,255,255,.06);border-radius:12px;padding:16px 18px;margin:16px 0;}
+  .quiz-q .prompt{color:#fff;font-weight:700;font-size:15px;margin-bottom:10px;}
+  .quiz-q .opt-btn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#fff;}
+  .quiz-q .opt-btn:hover{border-color:var(--accent);}
+  .quiz-q .opt-btn.correct{background:rgba(63,145,66,.35);border-color:var(--good);color:#fff;}
+  .quiz-q .opt-btn.wrong{background:rgba(214,64,43,.35);border-color:var(--bad);color:#fff;}
+  .quiz-result{display:none;text-align:center;margin-top:20px;padding:18px;border-radius:12px;background:rgba(255,255,255,.08);}
+  .quiz-result.show{display:block;}
+  .quiz-result .score{font-family:'Rubik';font-size:34px;font-weight:800;color:var(--gold);}
+  .quiz-result p{color:#E7EBF5;}
+  .retry-btn{margin-top:10px;background:var(--gold);color:var(--ink);border:none;font-family:'Rubik';font-weight:700;padding:9px 18px;border-radius:20px;cursor:pointer;}
+
+  footer.done{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+    margin-top:34px;padding-top:20px;border-top:2px solid var(--accent-soft);
+  }
+  footer.done .next-btn{background:var(--accent);color:#fff;font-family:'Rubik';font-weight:700;border:none;padding:12px 20px;border-radius:24px;cursor:pointer;font-size:14px;}
+
+  ::selection{background:var(--gold);}
+
+  a.card{text-decoration:none;display:flex;}
+  .tab-btn{text-decoration:none;display:flex;}
+
+  a.next-btn{text-decoration:none;display:inline-block;}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="badge">Укр</div>
+  <div class="titlewrap">
+    <h1>Зошит з української мови</h1>
+    <p class="sub">Платформа для 5 класу · Синтаксис: речення та його члени</p>
+  </div>
+</div>
+
+<div class="app">
+  <nav class="tabs">
+    <a class="tab-btn" href="platform.html">🏠 Платформа</a>
+    <a class="tab-btn" href="urok-39.html" style="color:var(--l1)">
+      Урок 1
+      <small>§39. Речення й основа</small>
+    </a>
+    <a class="tab-btn active" href="urok-40.html" style="color:var(--l2)">
+      Урок 2
+      <small>§40. Види речень</small>
+    </a>
+    <a class="tab-btn" href="urok-41.html" style="color:var(--l3)">
+      Урок 3
+      <small>§41. Додаток</small>
+    </a>
+  </nav>
+
+  <main class="page" id="pageMain">
+<section class="view active" id="view-l2">
+      <div class="lesson-head">
+        <svg class="icon" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="var(--l2-soft)"/><text x="22" y="40" font-size="26" fill="var(--l2)" text-anchor="middle" font-family="Rubik" font-weight="800">?</text><text x="43" y="40" font-size="26" fill="var(--l2)" text-anchor="middle" font-family="Rubik" font-weight="800">!</text></svg>
+        <div>
+          <span class="lesson-tag" style="background:var(--l2)">§40 · Урок 2</span>
+          <h2>Види речень за метою висловлювання та емоційним забарвленням</h2>
+          <p class="sub2">Про розповідні, питальні й спонукальні речення, а також про інтонацію</p>
+        </div>
+      </div>
+
+      <div class="lesson-progress-wrap" style="--accent:var(--l2);--accent-soft:var(--l2-soft)">
+        <div class="bar"><i id="bar-l2"></i></div>
+        <span id="barlabel-l2">0 / 6 завдань</span>
+      </div>
+
+      <div class="theory" style="--accent:var(--l2);--accent-soft:var(--l2-soft)">
+        <h4>📖 Три мети висловлювання</h4>
+        <p>За метою висловлювання речення бувають <b>розповідні</b>, <b>питальні</b> й <b>спонукальні</b>.</p>
+      </div>
+
+      <div class="example">
+        <span class="lbl">РОЗПОВІДНЕ</span>
+        Містить повідомлення про факти, явища, події. У кінці — крапка або три крапки.<br>
+        <i>Над доріжкою з асфальту дві берізки обнялись.</i>
+      </div>
+      <div class="example">
+        <span class="lbl">ПИТАЛЬНЕ</span>
+        Містить питання, яке спонукає співрозмовника до відповіді. У кінці — знак питання. Часто починається словами <b>як, де, звідки, навіщо, хто, що, чи</b> та ін.<br>
+        <i>Ти любиш дивитися на небо?</i>
+      </div>
+      <div class="example">
+        <span class="lbl">СПОНУКАЛЬНЕ</span>
+        Містить спонукання до дії: наказ, прохання, пораду, заборону. У кінці — крапка або три крапки.<br>
+        <i>Розкажи мені казку теплим голосом ночі…</i>
+      </div>
+
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-1"></div>
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-2"></div>
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-3"></div>
+
+      <div class="theory" style="--accent:var(--l2);--accent-soft:var(--l2-soft)">
+        <h4>🔔 Емоційне забарвлення</h4>
+        <p>Будь-яке з трьох речень — розповідне, питальне чи спонукальне — може бути ще й <b>окличним</b> або <b>неокличним</b>.</p>
+        <p><b>Окличні</b> речення виражають сильні емоції: радість, подив, захоплення, біль, страх, обурення. У кінці ставимо знак оклику. Якщо ж треба виразити й питання, і сильне почуття одразу — ставимо два знаки: <b>?!</b></p>
+      </div>
+
+      <div class="example">
+        <span class="lbl">ПРИКЛАДИ</span>
+        Яка розкішна цьогоріч зима! Стільки снігу намело!.. — <i>окличне</i><br>
+        Ліси мої, хто вас убереже?! — <i>питальне й водночас окличне</i>
+      </div>
+
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-4"></div>
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-5"></div>
+      <div class="exercise" style="--accent:var(--l2);--accent-soft:var(--l2-soft)" id="ex-l2-6"></div>
+
+      <div class="quiz-box" style="--accent:var(--l2)" id="quiz-l2"></div>
+
+      <footer class="done">
+        <span class="note" style="font-size:18px;color:var(--l2)">Чудово попрацював! Далі — додаток 🎈</span>
+        <a class="next-btn" style="background:var(--l2)" href="urok-41.html">До уроку 3 →</a>
+      </footer>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ===================== progress tracking ===================== */
+const progress = {l1:{done:0,total:6}, l2:{done:0,total:6}, l3:{done:0,total:6}};
+function bumpProgress(lesson){
+  progress[lesson].done = Math.min(progress[lesson].done+1, progress[lesson].total);
+  const pct = 100*progress[lesson].done/progress[lesson].total;
+  document.getElementById('bar-'+lesson).style.width = pct+'%';
+  const mini = document.getElementById('mini-'+lesson); if(mini) mini.style.width = pct+'%';
+  document.getElementById('barlabel-'+lesson).textContent = progress[lesson].done+' / '+progress[lesson].total+' завдань';
+}
+
+/* ===================== MCQ builder ===================== */
+function mcq(containerId, num, prompt, options, correctIdx, goodMsg, badMsg, lesson){
+  const el = document.getElementById(containerId);
+  let answered = false;
+  const optsHtml = options.map((o,i)=>`<button class="opt-btn" data-i="${i}">${o}</button>`).join('');
+  el.innerHTML = `
+    <div class="xhead"><span class="xnum">${num}</span><strong>Завдання</strong></div>
+    <div class="prompt">${prompt}</div>
+    <div class="opt-list">${optsHtml}</div>
+    <div class="feedback" style="display:none"></div>
+  `;
+  el.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      const i = +btn.dataset.i;
+      el.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+      const fb = el.querySelector('.feedback');
+      if(i===correctIdx){
+        btn.classList.add('correct');
+        fb.textContent = '✓ '+goodMsg;
+        fb.className='feedback good';
+      } else {
+        btn.classList.add('wrong');
+        el.querySelectorAll('.opt-btn')[correctIdx].classList.add('correct');
+        fb.textContent = '✗ '+badMsg;
+        fb.className='feedback bad';
+      }
+      fb.style.display='block';
+      bumpProgress(lesson);
+    });
+  });
+}
+
+/* ===================== word-pick builder ===================== */
+function wordpick(containerId, num, prompt, sentence, correctWords, goodMsg, badMsg, lesson){
+  const el = document.getElementById(containerId);
+  const words = sentence.split(' ');
+  const norm = w => w.toLowerCase().replace(/[.,!?…«»]/g,'');
+  const correctSet = correctWords.map(norm);
+  let picked = new Set();
+  let answered = false;
+  const chipsHtml = words.map((w,i)=>`<span class="chip" data-i="${i}" data-w="${norm(w)}">${w}</span>`).join(' ');
+  el.innerHTML = `
+    <div class="xhead"><span class="xnum">${num}</span><strong>Завдання</strong></div>
+    <div class="prompt">${prompt}</div>
+    <div class="word-chip-row">${chipsHtml}</div>
+    <button class="go-btn">Перевірити</button>
+    <div class="feedback" style="display:none"></div>
+  `;
+  el.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      if(answered) return;
+      const i = chip.dataset.i;
+      if(picked.has(i)){ picked.delete(i); chip.classList.remove('picked'); }
+      else { picked.add(i); chip.classList.add('picked'); }
+    });
+  });
+  el.querySelector('.go-btn').addEventListener('click', (e)=>{
+    if(answered) return;
+    answered = true;
+    e.target.disabled = true;
+    const chips = [...el.querySelectorAll('.chip')];
+    let allCorrect = true;
+    chips.forEach(chip=>{
+      const isPicked = picked.has(chip.dataset.i);
+      const isCorrect = correctSet.includes(chip.dataset.w);
+      chip.classList.remove('picked');
+      if(isCorrect){ chip.classList.add('correct'); if(!isPicked) allCorrect=false; }
+      else if(isPicked){ chip.classList.add('missed'); allCorrect=false; }
+    });
+    const fb = el.querySelector('.feedback');
+    if(allCorrect){ fb.textContent='✓ '+goodMsg; fb.className='feedback good'; }
+    else { fb.textContent='✗ '+badMsg; fb.className='feedback bad'; }
+    fb.style.display='block';
+    bumpProgress(lesson);
+  });
+}
+
+/* ===================== final quiz builder ===================== */
+function buildQuiz(containerId, title, lead, questions){
+  const el = document.getElementById(containerId);
+  let score = 0;
+  const qHtml = questions.map((q,qi)=>`
+    <div class="quiz-q" data-q="${qi}">
+      <div class="prompt">${qi+1}. ${q.prompt}</div>
+      <div class="opt-list">
+        ${q.options.map((o,i)=>`<button class="opt-btn" data-i="${i}">${o}</button>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  el.innerHTML = `
+    <h3>🏁 Підсумковий квіз</h3>
+    <p class="lead">${lead}</p>
+    ${qHtml}
+    <div class="quiz-result">
+      <div class="score" id="${containerId}-score">0 / ${questions.length}</div>
+      <p id="${containerId}-msg"></p>
+      <button class="retry-btn">Пройти ще раз</button>
+    </div>
+  `;
+  let answeredCount = 0;
+  function checkDone(){
+    if(answeredCount===questions.length){
+      score = [...el.querySelectorAll('.quiz-q')].filter(q=>q.dataset.correct==='1').length;
+      const resBox = el.querySelector('.quiz-result');
+      el.querySelector('#'+containerId+'-score').textContent = score+' / '+questions.length;
+      let msg;
+      const ratio = score/questions.length;
+      if(ratio===1) msg='Ідеально! Ти на відмінно засвоїв тему. 🌟';
+      else if(ratio>=0.6) msg='Дуже добре! Ще трошки практики — і буде відмінно.';
+      else msg='Варто повторити теорію вище й спробувати ще раз. Ти зможеш!';
+      el.querySelector('#'+containerId+'-msg').textContent = msg;
+      resBox.classList.add('show');
+    }
+  }
+  el.querySelectorAll('.quiz-q').forEach((qbox,qi)=>{
+    const q = questions[qi];
+    qbox.querySelectorAll('.opt-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(qbox.dataset.answered) return;
+        qbox.dataset.answered='1';
+        answeredCount++;
+        const i = +btn.dataset.i;
+        qbox.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+        if(i===q.correct){
+          btn.classList.add('correct');
+          qbox.dataset.correct='1';
+        } else {
+          btn.classList.add('wrong');
+          qbox.querySelectorAll('.opt-btn')[q.correct].classList.add('correct');
+        }
+        checkDone();
+      });
+    });
+  });
+  el.querySelector('.retry-btn').addEventListener('click', ()=>{
+    answeredCount = 0;
+    buildQuiz(containerId, title, lead, questions);
+  });
+}
+
+/* ===================== LESSON 2 content ===================== */
+mcq('ex-l2-1', 1,
+  'Визнач вид речення за метою висловлювання: «Ти вже прочитав цю книжку?»',
+  ['Розповідне','Питальне','Спонукальне'],
+  1,
+  'Правильно — це питання, і в кінці стоїть знак питання.',
+  'Речення містить питання до співрозмовника — отже, воно питальне.',
+  'l2'
+);
+
+mcq('ex-l2-2', 2,
+  'А це яке речення: «Розкажи мені казку»?',
+  ['Розповідне','Питальне','Спонукальне'],
+  2,
+  'Так, тут є спонукання до дії (прохання) — це спонукальне речення.',
+  'Тут не повідомлення і не питання, а прохання щось зробити — це спонукальне речення.',
+  'l2'
+);
+
+mcq('ex-l2-3', 3,
+  'Визнач вид речення: «Сонце сховалося за далекими хмарами.»',
+  ['Розповідне','Питальне','Спонукальне'],
+  0,
+  'Вірно! Це повідомлення про подію — розповідне речення.',
+  'У реченні просто повідомляється факт, без питання чи спонукання — воно розповідне.',
+  'l2'
+);
+
+mcq('ex-l2-4', 4,
+  'Яка позначка ставиться в кінці окличного речення?',
+  ['Крапка','Знак оклику','Три крапки'],
+  1,
+  'Так, окличне речення вимовляється з окличною інтонацією й на письмі позначається знаком оклику.',
+  'Окличні речення завжди мають на письмі знак оклику.',
+  'l2'
+);
+
+mcq('ex-l2-5', 5,
+  'Ситуація: у громадському транспорті тобі треба вийти, а попереду стоять пасажири. Яким реченням ти ввічливо звернешся до них?',
+  ['«Ви виходите на наступній?»','«Вийдіть негайно!»','«Транспорт їде повільно.»'],
+  0,
+  'Так, ввічливе питання — найкращий спосіб звернутися в такій ситуації.',
+  'Тут потрібне ввічливе питальне речення, а не наказ чи констатація факту.',
+  'l2'
+);
+
+mcq('ex-l2-6', 6,
+  'Речення «Яка чудова сьогодні погода!» — окличне чи неокличне?',
+  ['Окличне','Неокличне'],
+  0,
+  'Правильно — воно передає захоплення й закінчується знаком оклику.',
+  'Речення виражає сильну емоцію (захоплення) і має знак оклику — отже, воно окличне.',
+  'l2'
+);
+
+buildQuiz('quiz-l2',
+  'Види речень за метою й почуттям',
+  'Перевір, наскільки добре ти запам’ятав тему уроку 2.',
+  [
+    {prompt:'Яке речення містить повідомлення про факти чи події?', options:['Питальне','Розповідне','Спонукальне'], correct:1},
+    {prompt:'Яке речення спонукає співрозмовника до дії?', options:['Спонукальне','Питальне','Розповідне'], correct:0},
+    {prompt:'Який знак ставимо в кінці питального речення?', options:['Знак питання','Крапку','Знак оклику'], correct:0},
+    {prompt:'Чи може розповідне речення бути окличним?', options:['Ні, ніколи','Так, будь-яке речення може бути окличним','Тільки спонукальне'], correct:1},
+    {prompt:'Які знаки ставимо, якщо речення і питальне, і окличне водночас?', options:['!!','?!','..'], correct:1},
+  ]
+);
+
+
+</script>
+</body>
+</html>
